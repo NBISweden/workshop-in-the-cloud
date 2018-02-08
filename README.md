@@ -11,6 +11,8 @@ Nice to have
   + Run on a cloud system (probably a demand turn on/off functionality is a good fit)
   + Cloud-provider agnostic
   + Emulate UPPMAX with SLURM and modules (although this can be seen as a learning overhead)
+  
+    (Valentin) this is something important to decide on, because it adds a lot of complexity
 
 Other notes to start off with
   + We can test on SSC, on which there is a project
