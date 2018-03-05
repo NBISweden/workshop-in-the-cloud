@@ -6,12 +6,14 @@ Demands for this system are
   + Contain data and tools necessary for courses
   + Support maximally 30 simultaneous users
   + Easy to set up for course responsible (automatic)
+  + Easy to update parts for NBIS teachers when teaching material changes
 
 Nice to have
   + Run on a cloud system (probably a demand turn on/off functionality is a good fit)
   + Cloud-provider agnostic
   + Emulate UPPMAX with SLURM and modules (although this can be seen as a learning overhead)
     (Valentin) this is something important to decide on, because it adds a lot of complexity
+  + Option to launch the required datasets/software required for a specific course
 
 Other notes to start off with
   + We can test on SSC, on which there is a project
