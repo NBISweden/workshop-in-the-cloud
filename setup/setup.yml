@@ -15,3 +15,9 @@
 - hosts: all
   roles:
     - { role: set-hosts, become: true }
+- hosts: virt-workshop-master-000
+  roles:
+      - { role: setup-nfs, install_role: master, become: True }
+- hosts: nodes
+  roles:
+      - { role: setup-nfs, install_role: node, become: True }
