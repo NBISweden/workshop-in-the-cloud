@@ -1,0 +1,5 @@
+- name: Add mappings to /etc/hosts
+  blockinfile:
+    dest: /etc/hosts
+    content: "{{ lookup('template', 'templates/hosts.j2') }}"
+    state: present

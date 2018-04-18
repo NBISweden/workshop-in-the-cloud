@@ -5,3 +5,13 @@
       become: True
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
     - setup: # aka gather_facts
+- hosts: nodes
+  gather_facts: False
+  pre_tasks:
+    - name: Installing python
+      become: True
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - setup: # aka gather_facts
+- hosts: all
+  roles:
+    - { role: set-hosts, become: true }
