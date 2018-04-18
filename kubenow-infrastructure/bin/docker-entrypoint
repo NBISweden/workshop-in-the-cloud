@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# To get correct file permissions on files mounted as docker volumes,
+# this script primarily creates a user inside the Docker-container that
+# has the same user id as the user executing docker on the host. Also
+# all groupIDs from the host users are added to this user.
+#
+
+# Exit if a command exits with a non-zero status
+set -e
+
+# Add and run as local user if LOCAL_USER_ID is passed in at runtime
+if [ -z "$LOCAL_USER_ID" ]; then
+  echo "LOCAL_USER_ID must be set in the environment when running this container, exiting." >&2
+  exit 1
+fi
+
+# create user with $LOCAL_USER_ID if it doesn't exists
+if ! id -u "$LOCAL_USER_ID" >/dev/null 2>&1; then
+  adduser --quiet --shell /bin/bash \
+    --home /home/user \
+    --uid "$LOCAL_USER_ID" \
+    --disabled-password --gecos "" user
+fi
+
+# get username with $LOCAL_USER_ID
+username=$(getent passwd "$LOCAL_USER_ID" | cut -d: -f1)
+
+# create groups with $LOCAL_GROUP_IDS and add them to user
+for group_id in $LOCAL_GROUP_IDS; do
+
+  # create group with $group_id if it doesn't exist
+  if ! getent group "$group_id" >/dev/null 2>&1; then
+    addgroup --quiet --gid "$group_id" "group$group_id"
+  fi
+
+  # get groupname with $group_id
+  groupname=$(getent group "$group_id" | cut -d: -f1)
+
+  # add group to user
+  adduser --quiet "$username" "$groupname" >/dev/null 2>&1
+
+done
+
+# Set ownership to KubeNow folder
+chown -R "$username" "/opt/KubeNow"
+
+# add KubeNow bin path (works with gosu - environment variables are kept
+# when swiching user)
+if [[ "$1" == "kn-init" ]]; then
+  export PATH="/opt/KubeNow/bin:$PATH"
+else
+  export PATH="/KubeNow_root/bin:$PATH"
+fi
+
+# re-cite arguments (because user commands are passed via the ssh-wrapper)
+for arg in "$@"; do
+  recited_cmd="$recited_cmd \"$arg\""
+done
+
+# enter KubeNow user config path
+if [ ! -d "/KubeNow_root" ]; then
+  echo "Error: /KubeNow_root does not exist, exiting." >&2
+  exit 1
+fi
+cd "/KubeNow_root"
+
+# run command as above created user via ssh-wrapper script that adds the
+# ssh-agent to this execution environment
+gosu "$username" sh -c "/opt/KubeNow/bin/ssh-agent-wrapper $recited_cmd"

@@ -1,0 +1,7 @@
+[master]
+${masters}
+[nodes]
+${nodes}
+[all:vars]
+nodes_count=${nodes_count}
+domain=${domain}
