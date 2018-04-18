@@ -53,6 +53,23 @@ variable edge_private_ip {
   default = [""]
 }
 
+variable extra_count {}
+
+variable extra_hostnames {
+  type    = "list"
+  default = [""]
+}
+
+variable extra_public_ip {
+  type    = "list"
+  default = [""]
+}
+
+variable extra_private_ip {
+  type    = "list"
+  default = [""]
+}
+
 variable glusternode_count {}
 variable gluster_volumetype {}
 variable gluster_extra_disk_dev {}
@@ -73,6 +90,10 @@ locals {
   node_public_ip  = "${split(",", length(var.node_public_ip) == 0 ? join(",", list("")) : join(",", var.node_public_ip))}"
   node_private_ip = "${split(",", length(var.node_private_ip) == 0 ? join(",", list("")) : join(",", var.node_private_ip))}"
 
+  extra_hostnames  = "${split(",", length(var.extra_hostnames) == 0 ? join(",", list("")) : join(",", var.extra_hostnames))}"
+  extra_public_ip  = "${split(",", length(var.extra_public_ip) == 0 ? join(",", list("")) : join(",", var.extra_public_ip))}"
+  extra_private_ip = "${split(",", length(var.extra_private_ip) == 0 ? join(",", list("")) : join(",", var.extra_private_ip))}"
+
   edge_hostnames  = "${split(",", length(var.edge_hostnames) == 0 ? join(",", list("")) : join(",", var.edge_hostnames))}"
   edge_public_ip  = "${split(",", length(var.edge_public_ip) == 0 ? join(",", list("")) : join(",", var.edge_public_ip))}"
   edge_private_ip = "${split(",", length(var.edge_private_ip) == 0 ? join(",", list("")) : join(",", var.edge_private_ip))}"
@@ -81,6 +102,7 @@ locals {
   masters    = "${join("\n",formatlist("%s ansible_host=%s ansible_user=%s", local.master_hostnames , local.master_public_ip, var.ssh_user ))}"
   nodes      = "${join("\n",formatlist("%s ansible_host=%s ansible_user=%s", local.node_hostnames , local.node_public_ip, var.ssh_user))}"
   pure_edges = "${join("\n",formatlist("%s ansible_host=%s ansible_user=%s", local.edge_hostnames , local.edge_public_ip, var.ssh_user))}"
+  extras     = "${join("\n",formatlist("%s ansible_host=%s ansible_user=%s", local.extra_hostnames , local.extra_public_ip, var.ssh_user ))}"
 
   # Add master to edges if that is the case
   edges = "${var.master_as_edge == true ? "${format("%s\n%s", local.masters, local.pure_edges)}" : local.pure_edges}"
@@ -96,6 +118,7 @@ data "template_file" "inventory" {
     masters                = "${local.masters}"
     nodes                  = "${local.nodes}"
     edges                  = "${local.edges}"
+    extras                 = "${local.extras}"
     nodes_count            = "${local.nodes_count}"
     domain                 = "${var.domain}"
     gluster_extra_disk_dev = "${var.gluster_extra_disk_dev}"
