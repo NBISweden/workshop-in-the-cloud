@@ -1,0 +1,4 @@
+inventory
+.terraform
+terraform.tfstate*
+ssh_key*
