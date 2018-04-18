@@ -4,6 +4,8 @@ variable domain {}
 
 variable master_as_edge {}
 
+variable master_count {}
+
 variable master_hostnames {
   type    = "list"
   default = [""]
@@ -107,7 +109,7 @@ locals {
   # Add master to edges if that is the case
   edges = "${var.master_as_edge == true ? "${format("%s\n%s", local.masters, local.pure_edges)}" : local.pure_edges}"
 
-  nodes_count = "${1 + var.edge_count + var.node_count + var.glusternode_count}"
+  nodes_count = "${var.master_count + var.edge_count + var.node_count + var.glusternode_count + var.extra_count}"
 }
 
 # Generate inventory from template file
