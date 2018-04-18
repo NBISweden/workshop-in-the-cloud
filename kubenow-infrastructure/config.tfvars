@@ -11,6 +11,7 @@ skip_image_import = "true"
 
 # Master configuration
 master_flavor = "ssc.small"
+master_count = 2
 
 # Node configuration
 node_count = "2"
