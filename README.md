@@ -31,3 +31,19 @@ UX
   + This launches some instances from an image containing tools, instance amount will depend on nr of users, predefined ratios?
   + Attaches a volume or muliple volumes with data
   + Will return a text file or similar result with IP number(s) for students to login to
+
+# Some initial instructions about kubenow
+
+## Installera kn-client
+curl -f "https://raw.githubusercontent.com/kubenow/KubeNow/development/phenomenal-dalcotidine/bin/kn" -o "/tmp/kn"
+sudo mv /tmp/kn /usr/local/bin/
+sudo chmod +x /usr/local/bin/kn
+
+## Init a config-directory
+kn --preset plain init openstack my-deployment
+
+## Edit your config.tfvars - you can get network-id via: kn openstack network list (dont forget to 'source' your credentials file
+vim config.tfvars
+
+## Deploy kluster
+kn apply
