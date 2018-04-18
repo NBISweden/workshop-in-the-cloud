@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ] || [ ! -f "$1" ]; then
+    echo "Usage: $0 playbook.yml"
+    exit 1
+fi
+
+playbook="$1"
+shift
+
+ansible-playbook \
+    --key-file ../kubenow-infrastructure/ssh_key \
+    "$@" \
+    "$playbook"
