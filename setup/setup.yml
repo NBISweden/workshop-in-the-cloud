@@ -14,6 +14,7 @@
     - setup: # aka gather_facts
 - hosts: all
   roles:
+    - dumpvars
     - { role: set-hosts, become: true }
 - hosts: virt-workshop-master-000
   roles:
