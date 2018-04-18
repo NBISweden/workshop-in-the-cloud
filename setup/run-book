@@ -8,11 +8,8 @@ fi
 playbook="$1"
 shift
 
-master_ip=$(grep -A1 '\[master\]' inventory  | grep -o 'ansible_host=\S\+' | cut -d= -f2)
-
 ansible-playbook \
     -e "ssh_key=../kubenow-infrastructure/ssh_key" \
-    -e "master_ip=$master_ip" \
     --key-file ../kubenow-infrastructure/ssh_key \
     "$@" \
     "$playbook"
