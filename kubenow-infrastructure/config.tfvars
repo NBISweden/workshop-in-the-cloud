@@ -1,18 +1,20 @@
 # Cluster configuration
-provider = "openstack" # cloud provider for this config(don't change it)
-cluster_prefix = "your-cluster-prefix" # Your cluster prefix
-floating_ip_pool = "your-pool-name"
-external_network_uuid = "external-net-uuid" # The uuid of the external network in the OpenStack tenancy
+provider = "openstack"
+cluster_prefix = "virt-workshop"
+
+floating_ip_pool = "Public External IPv4 network"
+external_network_uuid = "af006ff3-d68a-4722-a056-0f631c5a0039" # The uuid of the external network in the OpenStack tenancy
+
 boot_image = "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
 bootstrap_script = "bootstrap/plain.sh"
 skip_image_import = "true"
 
 # Master configuration
-master_flavor = "your-master-flavor"
+master_flavor = "ssc.small"
 
 # Node configuration
-node_count = "3"
-node_flavor = "your-node-flavor"
+node_count = "2"
+node_flavor = "ssc.small"
 
 provision = {
 
