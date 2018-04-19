@@ -24,3 +24,7 @@
       dest: /home/test000/.ssh/authorized_keys
       mode: 0600
       state: hard
+- name: Hushlogin for user
+  file:
+      path: /home/test000/.hushlogin
+      state: touch
