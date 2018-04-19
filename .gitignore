@@ -4,3 +4,5 @@ venv
 .terraform
 terraform.tfstate*
 ssh_key*
+/kn
+playbooks/*.retry
