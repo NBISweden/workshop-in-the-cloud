@@ -1,3 +1,3 @@
 {% for item in groups['all'] %}
-{{ hostvars[item].local_host | default(hostvars[item].ansible_host) }}       {{ item }}
+{{ hostvars[item].local_host | default(hostvars[item].private_ip) }}       {{ item }}
 {% endfor %}
