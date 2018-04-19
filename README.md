@@ -13,9 +13,12 @@ OpenStack RC File v3`. Save that file as `credentials.sh`.
 
 ## Customize the setup
 
+_This step works partly_
+
     ./create-users.py <num users>
 
-
 ## Launch the system
+
+_This doesn't work without editing a bunch of files._
 
     ./kn apply
