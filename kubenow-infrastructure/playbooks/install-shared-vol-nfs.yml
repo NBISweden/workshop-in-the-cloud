@@ -1,5 +1,0 @@
----
-- hosts: master
-  gather_facts: "false"
-  roles:
-    - {role: shared-volume-nfs, tags: ['shared-vol-nfs']}
