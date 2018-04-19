@@ -1,6 +1,11 @@
 # How to setup a virtual workshop cloud
 
-## Install the kn client
+## Prerequisites
+
+- Docker
+- TODO: Python stuff
+
+## Install the KubeNow client
 
     curl -f "https://raw.githubusercontent.com/kubenow/KubeNow/development/phenomenal-dalcotidine/bin/kn" -o "kn"
     chmod +x /usr/local/bin/kn
