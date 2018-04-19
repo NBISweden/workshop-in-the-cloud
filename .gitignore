@@ -1,2 +1,6 @@
 credentials.sh
 venv
+/inventory
+.terraform
+terraform.tfstate*
+ssh_key*
