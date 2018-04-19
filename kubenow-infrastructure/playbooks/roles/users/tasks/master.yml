@@ -1,0 +1,26 @@
+- name: Enable password logins
+  lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: 'PasswordAuthentication no'
+      line: 'PasswordAuthentication yes'
+- name: Reload sshd config
+  service:
+      name: sshd
+      state: reloaded
+- name: Add custom shell for students
+  copy:
+      src: shell.sh
+      dest: /usr/local/bin/shell.sh
+      mode: 0755
+- name: Create a user on master node
+  user:
+      name: test000
+      shell: /usr/local/bin/shell.sh
+      password: $6$54ovn5Gc0BzOjyT8$xA60j1DMjAE7M6dMdhGYnS6RvoqvgoKQf45UyPtXhKc2RjT1K3V6KnL.mYAu.eSDCZyd/945bfMQ80dCwNm3I.
+      generate_ssh_key: yes
+- name: Make sure the key is authorized
+  file:
+      src: /home/test000/.ssh/id_rsa.pub
+      dest: /home/test000/.ssh/authorized_keys
+      mode: 0600
+      state: hard

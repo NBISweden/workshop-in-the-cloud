@@ -1,0 +1,7 @@
+- name: Install Users on master
+  include_tasks: master.yml
+  when: install_role is defined and install_role == "master"
+
+- name: Install Users on nodes
+  include_tasks: nodes.yml
+  when: install_role is defined and install_role == "node"

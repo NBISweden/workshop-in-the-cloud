@@ -1,0 +1,5 @@
+- name: Create a user on master node
+  user:
+      name: test000
+      shell: /bin/bash
+      createhome: no
