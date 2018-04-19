@@ -11,14 +11,20 @@ skip_image_import = "true"
 
 # Master configuration
 master_flavor = "ssc.small"
-master_count = 2
+master_count = "1"
 
 # Node configuration
 node_count = "2"
 node_flavor = "ssc.small"
 
 provision = {
-
+    "action" = {
+        "type"  = "ansible-playbook"
+        "playbook" = "playbooks/setup.yml"
+        "extra_vars" = {
+            "ssh_key" = "ssh_key"
+        }
+    }
 }
 
 provisioner_image = "kubenow/provisioners:development-phenomenal-dalcotidine"
