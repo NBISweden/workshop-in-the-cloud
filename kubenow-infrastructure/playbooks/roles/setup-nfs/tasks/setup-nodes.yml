@@ -11,8 +11,8 @@
 #   with_items: "{{ groups['master'] }}"
 - name: Mount NFS directories
   mount:
-    path: /data
+    path: /home
     opts: auto,nofail,noatime,nolock,intr,tcp,actimeo=1800
     fstype: nfs
-    src: "{{ master_host }}:/data"
+    src: "{{ master_host }}:/home"
     state: mounted
