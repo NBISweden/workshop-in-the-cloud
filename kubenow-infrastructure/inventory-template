@@ -2,8 +2,6 @@
 ${masters}
 [nodes]
 ${nodes}
-[extras]
-${extras}
 [all:vars]
 nodes_count=${nodes_count}
 domain=${domain}

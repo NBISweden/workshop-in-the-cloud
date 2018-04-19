@@ -219,36 +219,6 @@ module "node" {
   master_ip      = "${element(module.master.local_ip_v4, 0)}"
 }
 
-module "extra" {
-  # Core settings
-  source      = "./node"
-  count       = "1"
-  name_prefix = "${var.cluster_prefix}-extra"
-  flavor_name = "${var.node_flavor}"
-  flavor_id   = "${var.node_flavor_id}"
-  image_name  = "${var.boot_image}"
-
-  # SSH settings
-  ssh_user     = "${var.ssh_user}"
-  keypair_name = "${module.keypair.keypair_name}"
-
-  # Network settings
-  network_name       = "${module.network.network_name}"
-  secgroup_name      = "${module.secgroup.secgroup_name}"
-  assign_floating_ip = "false"
-  floating_ip_pool   = ""
-
-  # Disk settings
-  extra_disk_size = "0"
-
-  # Bootstrap settings
-  bootstrap_file = "${var.bootstrap_script}"
-  kubeadm_token  = "${var.kubeadm_token}"
-  node_labels    = ["role=extra"]
-  node_taints    = [""]
-  master_ip      = "${element(module.master.local_ip_v4, 0)}"
-}
-
 module "edge" {
   # Core settings
   source      = "./node"
@@ -349,10 +319,6 @@ module "generate-inventory" {
   node_hostnames         = "${module.node.hostnames}"
   node_public_ip         = "${module.node.public_ip}"
   node_private_ip        = "${module.node.local_ip_v4}"
-  extra_count             = "1"
-  extra_hostnames         = "${module.extra.hostnames}"
-  extra_public_ip         = "${module.extra.public_ip}"
-  extra_private_ip        = "${module.extra.local_ip_v4}"
   glusternode_count      = "${var.glusternode_count}"
   gluster_volumetype     = "${var.gluster_volumetype}"
   gluster_extra_disk_dev = "${element(concat(module.glusternode.extra_disk_device, list("")),0)}"
