@@ -1,18 +1,10 @@
-- hosts: master
-  gather_facts: False
-  pre_tasks:
-    - name: Installing python
-      become: True
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-    - setup: # aka gather_facts
-- hosts: nodes
-  gather_facts: False
-  pre_tasks:
-    - name: Installing python
-      become: True
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-    - setup: # aka gather_facts
 - hosts: all
+  gather_facts: False
+  pre_tasks:
+    - name: Installing python
+      become: True
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - setup: # aka gather_facts
   roles:
     - dumpvars
     - { role: set-hosts, become: true }
