@@ -26,3 +26,4 @@
   roles:
       - { role: setup-nfs, install_role: node, become: True }
       - { role: users, install_role: node, become: True }
+      - { role: local-disk, become: True }

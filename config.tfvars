@@ -12,10 +12,12 @@ skip_image_import = "true"
 # Master configuration
 master_flavor = "ssc.small"
 master_count = "1"
+master_disk_size = "0"
 
 # Node configuration
 node_count = "2"
 node_flavor = "ssc.small"
+node_disk_size = "10"
 
 provision = {
     "action" = {

@@ -56,6 +56,10 @@ variable master_as_edge {
   default = "true"
 }
 
+variable master_disk_size {
+  default = "0"
+}
+
 # Nodes settings
 variable node_count {
   default = 0
@@ -67,6 +71,10 @@ variable node_flavor {
 
 variable node_flavor_id {
   default = ""
+}
+
+variable node_disk_size {
+  default = "0"
 }
 
 # Edges settings
@@ -179,7 +187,7 @@ module "master" {
   floating_ip_pool   = "${var.floating_ip_pool}"
 
   # Disk settings
-  extra_disk_size = "0"
+  extra_disk_size = "${var.master_disk_size}"
 
   # Bootstrap settings
   bootstrap_file = "${var.bootstrap_script}"
@@ -209,7 +217,7 @@ module "node" {
   floating_ip_pool   = ""
 
   # Disk settings
-  extra_disk_size = "0"
+  extra_disk_size = "${var.node_disk_size}"
 
   # Bootstrap settings
   bootstrap_file = "${var.bootstrap_script}"
