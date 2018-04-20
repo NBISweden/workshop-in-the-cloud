@@ -8,8 +8,6 @@ import yaml
 import sys
 
 
-# TODO Generate uid and gid
-
 parser = argparse.ArgumentParser()
 parser.add_argument('users', metavar='U', nargs='+', type=int, help='The number of users to generate credentials for')
 
@@ -17,15 +15,21 @@ args = parser.parse_args()
 
 nusers = args.users[0]
 
+uid_start = 2000
+
 users = []
 for n in range(nusers):
     username = "user{:0>3}".format(n)
     password = passlib.pwd.genword(length=10)
-    hash = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
+    hash     = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
+    uid      = uid_start + n
+
     users.append({
         "user": username,
         "password": password,
-        "hash": hash
+        "hash": hash,
+        "uid": uid,
+        "gid": uid
     })
 
 
