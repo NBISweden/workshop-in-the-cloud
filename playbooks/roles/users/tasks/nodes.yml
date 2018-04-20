@@ -1,5 +1,5 @@
-- name: Create a user on master node
-  user:
-      name: test000
-      shell: /bin/bash
-      createhome: no
+- name: Create user
+  include_tasks: create_user_node.yml
+  vars:
+      user: "{{ item }}"
+  with_items: "{{ users }}"

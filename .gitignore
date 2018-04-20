@@ -6,3 +6,4 @@ terraform.tfstate*
 ssh_key*
 /kn
 playbooks/*.retry
+playbooks/roles/users/vars/main.yml

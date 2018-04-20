@@ -1,0 +1,16 @@
+- name: "Create user {{user.user}} on master node"
+  user:
+      name: "{{user.user}}"
+      shell: /usr/local/bin/shell.sh
+      password: "{{user.hash}}"
+      generate_ssh_key: yes
+- name: Make sure the key is authorized
+  file:
+      src: "/home/{{user.user}}/.ssh/id_rsa.pub"
+      dest: "/home/{{user.user}}/.ssh/authorized_keys"
+      mode: 0600
+      state: hard
+- name: Hushlogin for user
+  file:
+      path: /home/{{user.user}}/.hushlogin
+      state: touch

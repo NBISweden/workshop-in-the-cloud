@@ -1,0 +1,5 @@
+- name: "Create user {{user.user}} on node"
+  user:
+      name: "{{user.user}}"
+      shell: /bin/bash
+      createhome: no
