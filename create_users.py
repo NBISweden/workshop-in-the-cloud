@@ -8,6 +8,8 @@ import yaml
 import sys
 
 
+# TODO Generate uid and gid
+
 parser = argparse.ArgumentParser()
 parser.add_argument('users', metavar='U', nargs='+', type=int, help='The number of users to generate credentials for')
 
