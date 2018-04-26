@@ -1,15 +1,29 @@
+- name: "Create group {{user.user}} on master node"
+  group:
+      name: "{{user.user}}"
+      gid: "{{user.gid}}"
+      state: present
 - name: "Create user {{user.user}} on master node"
   user:
       name: "{{user.user}}"
       shell: /usr/local/bin/shell.sh
       password: "{{user.hash}}"
-      generate_ssh_key: yes
-- name: Make sure the key is authorized
+      group: "{{user.user}}"
+      uid: "{{user.uid}}"
+- name: Create .ssh dir
   file:
-      src: "/home/{{user.user}}/.ssh/id_rsa.pub"
-      dest: "/home/{{user.user}}/.ssh/authorized_keys"
+      path: "/home/{{ user.user }}/.ssh"
+      state: directory
+      owner: "{{user.user}}"
+      group: "{{user.user}}"
+      mode: 0755
+- name: Copy private key
+  copy:
+      content: "{{ user.private_key }}"
+      dest: "/home/{{ user.user }}/.ssh/id_rsa"
       mode: 0600
-      state: hard
+      owner: "{{user.user}}"
+      group: "{{user.user}}"
 - name: Hushlogin for user
   file:
       path: /home/{{user.user}}/.hushlogin

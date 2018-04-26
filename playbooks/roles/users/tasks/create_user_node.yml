@@ -1,5 +1,30 @@
+- name: "Create group {{user.user}} on compute node"
+  group:
+      name: "{{user.user}}"
+      gid: "{{user.gid}}"
+      state: present
 - name: "Create user {{user.user}} on node"
   user:
       name: "{{user.user}}"
       shell: /bin/bash
-      createhome: no
+      group: "{{user.user}}"
+      home: "/local/{{user.user}}"
+      uid: "{{user.uid}}"
+- name: Create .ssh directory
+  file:
+      path: "/local/{{user.user}}/.ssh"
+      state: directory
+      owner: "{{user.user}}"
+      group: "{{user.user}}"
+      mode: 0755
+- name: Add public key to authorized keys
+  copy:
+      content: "{{ user.public_key }}"
+      dest: "/local/{{ user.user }}/.ssh/authorized_keys"
+      owner: "{{user.user}}"
+      group: "{{user.user}}"
+      mode: 0600
+- name: Hushlogin for user
+  file:
+      path: /local/{{user.user}}/.hushlogin
+      state: touch
