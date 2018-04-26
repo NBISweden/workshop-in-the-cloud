@@ -1,22 +1,10 @@
-- hosts: master
+- hosts: all
   gather_facts: False
   pre_tasks:
     - name: Installing python
       become: True
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-    - setup: # aka gather_facts
   roles:
-    - dumpvars
-    - { role: set-hosts, become: true }
-- hosts: nodes
-  gather_facts: False
-  pre_tasks:
-    - name: Installing python
-      become: True
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-    - setup: # aka gather_facts
-  roles:
-    - dumpvars
     - { role: set-hosts, become: true }
 - hosts: virt-workshop-master-000
   roles:
