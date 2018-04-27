@@ -40,8 +40,8 @@ def create_ssh_key():
     return (public_key.decode('utf-8'), private_key.decode('utf-8'))
 
 
-def create_users(users):
-    uid_start = 2000
+def create_users(args):
+    users = args.users
 
     user_names = []
 
@@ -53,16 +53,19 @@ def create_users(users):
         for n in range(number):
             user_names.append("user{:0>3}".format(n))
 
-    users = []
+    uid_start = 2000
+    users = {}
     for n, username in enumerate(user_names):
         num      = "{:0>3}".format(n)
+        host     = "{}-node-{}".format(args.cluster_prefix, num)
         password = passlib.pwd.genword(length=10)
         hash     = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
         uid      = uid_start + n
 
         public_key, private_key = create_ssh_key()
 
-        users.append({
+        users[host] = [{
+            "host": host,
             "user": username,
             "password": password,
             "hash": hash,
@@ -71,7 +74,7 @@ def create_users(users):
             "private_key": private_key,
             "public_key": public_key,
             "num": num
-        })
+        }]
 
     return users
 
@@ -97,7 +100,7 @@ def generate_vars_file(args, users):
 
 def generate_users_file(users):
     with open('passwords.txt', 'w') as fh:
-        for u in users:
+        for u in [u for host in users.values() for u in host]:
             fh.write("{}\t{}\n".format(u['user'], u['password']))
 
 
@@ -123,7 +126,7 @@ def main():
 
     args = parser.parse_args()
 
-    users = create_users(args.users)
+    users = create_users(args)
     (id,name) = find_external_network()
 
     node_count = len(users)

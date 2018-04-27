@@ -16,4 +16,4 @@
   include_tasks: create_user_master.yml
   vars:
       user: "{{ item }}"
-  with_items: "{{ users }}"
+  with_items: "{{ users.values() }}"

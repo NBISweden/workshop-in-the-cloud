@@ -2,4 +2,4 @@
   include_tasks: create_user_node.yml
   vars:
       user: "{{ item }}"
-  with_items: "{{ users }}"
+  with_items: "{{ users[inventory_hostname] }}"
