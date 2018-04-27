@@ -48,17 +48,21 @@ def create_users(args):
     if os.path.isfile(users):
         with open(users) as fh:
             for line in fh:
-                user_names.append(line.strip())
+                user, *password = line.split()
+                if not password:
+                    password = [passlib.pwd.genword(length=10)]
+                user_names.append([user, password[0]])
     else:
         for n in range(number):
-            user_names.append("user{:0>3}".format(n))
+            password = passlib.pwd.genword(length=10)
+            user_names.append(["user{:0>3}".format(n), password])
 
     uid_start = 2000
     users = {}
-    for n, username in enumerate(user_names):
+    for n, user in enumerate(user_names):
+        (username, password) = user
         num      = "{:0>3}".format(n)
         host     = "{}-node-{}".format(args.cluster_prefix, num)
-        password = passlib.pwd.genword(length=10)
         hash     = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
         uid      = uid_start + n
 
