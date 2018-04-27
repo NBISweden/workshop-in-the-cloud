@@ -44,7 +44,8 @@ def create_users(number):
 
     users = []
     for n in range(number):
-        username = "user{:0>3}".format(n)
+        num      = "{:0>3}".format(n)
+        username = "user{}".format(num)
         password = passlib.pwd.genword(length=10)
         hash     = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
         uid      = uid_start + n
@@ -59,6 +60,7 @@ def create_users(number):
             "gid": uid,
             "private_key": private_key,
             "public_key": public_key,
+            "num": num
         })
 
     return users
@@ -71,6 +73,7 @@ def generate_config_file(**args):
 
 def generate_vars_file(args, users):
     data = {
+        "cluster_prefix": args.cluster_prefix,
         "master_host": "{}-master-000".format(args.cluster_prefix),
         "master_ip": "{{ hostvars.get(master_host)[\"ansible_host\"] }}",
         "users": users,
