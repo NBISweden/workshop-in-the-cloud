@@ -5,6 +5,7 @@ import yaml
 import sys
 import subprocess
 import re
+import os.path
 
 import passlib.pwd
 import passlib.hash
@@ -39,13 +40,22 @@ def create_ssh_key():
     return (public_key.decode('utf-8'), private_key.decode('utf-8'))
 
 
-def create_users(number):
+def create_users(users):
     uid_start = 2000
 
+    user_names = []
+
+    if os.path.isfile(users):
+        with open(users) as fh:
+            for line in fh:
+                user_names.append(line.strip())
+    else:
+        for n in range(number):
+            user_names.append("user{:0>3}".format(n))
+
     users = []
-    for n in range(number):
+    for n, username in enumerate(user_names):
         num      = "{:0>3}".format(n)
-        username = "user{}".format(num)
         password = passlib.pwd.genword(length=10)
         hash     = passlib.hash.sha512_crypt.using(rounds=5000).hash(password)
         uid      = uid_start + n
@@ -104,7 +114,7 @@ def find_external_network():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--users',            dest='node_count',       type=int, required=True, help='The number of users to generate credentials for')
+    parser.add_argument('--users',            dest='users',            type=str, required=True, help='The number of users to generate credentials for')
     parser.add_argument('--cluster-prefix',   dest='cluster_prefix',   type=str, default='virt-workshop')
     parser.add_argument('--master-flavor',    dest='master_flavor',    type=str, default='ssc.small')
     parser.add_argument('--master-disk-size', dest='master_disk_size', type=int, default=0)
@@ -113,12 +123,15 @@ def main():
 
     args = parser.parse_args()
 
-    users = create_users(args.node_count)
+    users = create_users(args.users)
     (id,name) = find_external_network()
 
-    generate_config_file(**vars(args), external_network_id=id, external_network_name=name)
+    node_count = len(users)
+
+    generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
     generate_vars_file(args, users)
     generate_users_file(users)
+
     print("""Course setup is finished
  To spin up the cloud run: ./kn apply
  The usernames and passwords are in the file passwords.txt""")
