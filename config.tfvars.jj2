@@ -1,23 +1,23 @@
 # Cluster configuration
 provider = "openstack"
-cluster_prefix = "virt-workshop"
+cluster_prefix = "{{ cluster_prefix }}"
 
-floating_ip_pool = "Public External IPv4 network"
-external_network_uuid = "af006ff3-d68a-4722-a056-0f631c5a0039" # The uuid of the external network in the OpenStack tenancy
+floating_ip_pool = "{{ external_network_name }}"
+external_network_uuid = "{{ external_network_id }}"
 
 boot_image = "Ubuntu 16.04 LTS (Xenial Xerus) - latest"
 bootstrap_script = "bootstrap/plain.sh"
 skip_image_import = "true"
 
 # Master configuration
-master_flavor = "ssc.small"
+master_flavor = "{{ master_flavor }}"
 master_count = "1"
-master_disk_size = "0"
+master_disk_size = "{{ master_disk_size }}"
 
 # Node configuration
-node_count = "2"
-node_flavor = "ssc.small"
-node_disk_size = "10"
+node_count = "{{ node_count }}"
+node_flavor = "{{ node_flavor }}"
+node_disk_size = "{{ node_disk_size }}"
 
 provision = {
     "action" = {
