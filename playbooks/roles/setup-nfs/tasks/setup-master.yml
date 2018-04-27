@@ -4,10 +4,6 @@
       state: present
   with_items:
       - nfs-kernel-server
-- name: Create shared data directory
-  file:
-      path: /shared
-      state: directory
 - name: Update /etc/exports
   lineinfile:
     path: /etc/exports

@@ -3,7 +3,7 @@
       path: "{{ item }}"
       state: directory
   with_items:
-      - /data
+      - /shared
 
 - name: Install NFS master
   include_tasks: setup-master.yml

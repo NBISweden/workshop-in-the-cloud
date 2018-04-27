@@ -9,10 +9,6 @@
 #     path: /etc/fstab
 #     line: "{{ hostvars[item].local_host }}:/home       /home      nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0"
 #   with_items: "{{ groups['master'] }}"
-- name: Create shared data directory
-  file:
-      path: /shared
-      state: directory
 - name: Mount NFS directories
   mount:
     path: /shared
