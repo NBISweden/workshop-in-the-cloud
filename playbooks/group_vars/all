@@ -1,3 +1,0 @@
-cluster_prefix: virt-workshop
-master_host: "{{cluster_prefix}}-master-000"
-master_ip: "{{ hostvars.get(master_host)['ansible_host'] }}"
