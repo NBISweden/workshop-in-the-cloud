@@ -28,3 +28,11 @@
   file:
       path: /home/{{user.user}}/.hushlogin
       state: touch
+- name: Create ssh config file
+  template:
+      src: ssh_config
+      dest: /home/{{ user.user }}/.ssh/config
+  vars:
+      hostname: "{{cluster_prefix}}-node-{{user.num}}"
+      username: "{{user.user}}"
+      identityfile: "/home/{{ user.user }}/.ssh/id_rsa"

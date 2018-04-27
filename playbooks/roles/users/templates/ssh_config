@@ -1,0 +1,8 @@
+ForwardAgent=yes
+StrictHostKeyChecking=no
+UserKnownHostsFile=/dev/null
+
+Host worknode
+    hostname {{ hostname }}
+    user {{ username }}
+    identityfile {{ identityfile }}
