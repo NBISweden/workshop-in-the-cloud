@@ -53,7 +53,7 @@ def create_users(args):
                     password = [passlib.pwd.genword(length=10)]
                 user_names.append([user, password[0]])
     else:
-        for n in range(users):
+        for n in range(int(users)):
             password = passlib.pwd.genword(length=10)
             user_names.append(["user{:0>3}".format(n), password])
 
