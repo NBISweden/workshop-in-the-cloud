@@ -83,7 +83,7 @@ def generate_vars_file(args, users):
 
 
 def generate_users_file(users):
-    with open('users.txt', 'w') as fh:
+    with open('passwords.txt', 'w') as fh:
         for u in users:
             fh.write("{}\t{}\n".format(u['user'], u['password']))
 
@@ -118,7 +118,7 @@ def main():
     generate_users_file(users)
     print("""Course setup is finished
  To spin up the cloud run: ./kn apply
- The usernames and passwords are in the file users.txt""")
+ The usernames and passwords are in the file passwords.txt""")
 
 
 if __name__ == '__main__':

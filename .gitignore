@@ -8,3 +8,4 @@ ssh_key*
 playbooks/*.retry
 playbooks/roles/users/vars/main.yml
 config.tfvars
+passwords.txt
