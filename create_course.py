@@ -92,7 +92,7 @@ def generate_users_file(users):
 
 
 def find_external_network():
-    p = subprocess.run(['./kn', 'openstack', 'network', 'list'], stdout=subprocess.PIPE)
+    p = subprocess.run(['./kn', 'openstack', 'network', 'list', '--external'], stdout=subprocess.PIPE)
     for line in p.stdout.decode('utf8').split("\r\n"):
         m = re.search(r'([a-f0-9-]+) \| (Public External IPv4 network)', line, re.IGNORECASE)
         if m:
