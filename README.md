@@ -57,13 +57,17 @@ Then you have to source this file and enter the API password:
 
 ## Setup
 
-To create the configuration for the system run `create-course.py` something
-like this:
+To create the configuration for the system run `create-course.py`. This will
+create the configuration files for the cloud and also generate a file,
+`passwords.txt` with usernames and passowords for the students.
 
-    ./create-course.py --users 10
+For example it can be run something like this:
 
-This will create a default course with 10 users. Use the `--help` option to
-find out more about how to configure the course setup.
+    ./create-course.py --users 10 --student-disk-size 30
+
+This will create a course instance with 10 users and a work area for each
+student that is 30Gb. Use the `--help` option to find out more about how to
+configure the course setup.
 
 
 ## Launch the system
