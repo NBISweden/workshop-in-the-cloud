@@ -119,7 +119,18 @@ def find_external_network():
     return
 
 
+def check_environment():
+    if not os.environ.get('OS_AUTH_URL', False):
+        sys.stderr.write("ERROR: You need to source the openstack credentials file.\n")
+        sys.exit(1)
+
+    if not os.path.isfile('ssh_key'):
+        subprocess.run("ssh-keygen -t rsa -N '' -f ssh_key")
+
+
 def main():
+    check_environment()
+
     parser = argparse.ArgumentParser()
     parser.add_argument('--users',            dest='users',            type=str, required=True, help='The number of users to generate credentials for')
     parser.add_argument('--cluster-prefix',   dest='cluster_prefix',   type=str, default='virt-workshop')
