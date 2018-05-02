@@ -36,18 +36,27 @@ the root of this project.
     chmod +x ./kn
 
 
-## Get credentials from the openstack instance
+### Set the SNIC Science CLoud API Password
+
+Go to the [cloud portal][cloud-portal] and in the left hand menu there's a link
+to `Set your API password`. Go there and do that.
+
+
+### Get credentials file from the openstack instance
 
 Go to the webinterface of the openstack project, go to `Compute -> Access &
 Security` in the sidebar and click the `API Access` tab and then `Download
-OpenStack RC File v3`. Save that file as `credentials.sh`.
+OpenStack RC File v3`. Save that file as `credentials.sh` or something similar.
+
+Then you have to source this file and enter the API password:
+
+    source credentials.sh
 
 
-## Customize the setup
-
-_This step works partly_
+## Setup
 
     ./create-users.py <num users>
+
 
 ## Launch the system
 
@@ -57,3 +66,4 @@ _This doesn't work without editing a bunch of files._
 
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
+[cloud-portal]: https://cloud.snic.se/ "SNIC Cloud Portal"
