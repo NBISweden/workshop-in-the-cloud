@@ -128,30 +128,64 @@ def check_environment():
         subprocess.run("ssh-keygen -t rsa -N '' -f ssh_key")
 
 
+def parse_command_line():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+            '--users',
+            dest='users',
+            type=str,
+            required=True,
+            metavar='USERS',
+            help='The number of users to generate credentials for'
+        )
+    parser.add_argument(
+            '--cluster-prefix',
+            dest='cluster_prefix',
+            type=str,
+            default='virt-workshop',
+            metavar='<virt-workshop>',
+            help='Cluster prefix for hostnames in openstack, default is virt-workshop'
+        )
+    parser.add_argument(
+            '--master-flavor',
+            dest='master_flavor',
+            type=str,
+            default='ssc.small',
+            metavar='<ssc.small>',
+            help='The openstack flavor for the master node, default is ssc.small'
+        )
+    parser.add_argument(
+            '--master-disk-size',
+            dest='master_disk_size',
+            type=int,
+            default=0,
+            metavar='<0>',
+            help='The disk size for the extra disk of the master node, in Gb, default is 0'
+        )
+    parser.add_argument(
+            '--student-flavor',
+            dest='student_flavor',
+            type=str,
+            default='ssc.small',
+            metavar='<ssc.small>',
+            help='The openstack flavor for the student nodes, default is ssc.small'
+        )
+    parser.add_argument(
+            '--student-disk-size',
+            dest='student_disk_size',
+            type=int,
+            default=10,
+            metavar='<10>',
+            help='The disk size for the extra disk of the student nodes, in Gb, default is 10'
+        )
+
+    return parser.parse_args()
+
+
 def main():
     check_environment()
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--users', dest='users', type=str, required=True,
-            metavar='USERS',
-            help='The number of users to generate credentials for')
-    parser.add_argument('--cluster-prefix', dest='cluster_prefix', type=str, default='virt-workshop',
-            metavar='<virt-workshop>',
-            help='Cluster prefix for hostnames in openstack, default is virt-workshop')
-    parser.add_argument('--master-flavor', dest='master_flavor', type=str, default='ssc.small',
-            metavar='<ssc.small>',
-            help='The openstack flavor for the master node, default is ssc.small')
-    parser.add_argument('--master-disk-size', dest='master_disk_size', type=int, default=0,
-            metavar='<0>',
-            help='The disk size for the extra disk of the master node, in Gb, default is 0')
-    parser.add_argument('--student-flavor', dest='student_flavor', type=str, default='ssc.small',
-            metavar='<ssc.small>',
-            help='The openstack flavor for the student nodes, default is ssc.small')
-    parser.add_argument('--student-disk-size', dest='student_disk_size', type=int, default=10,
-            metavar='<10>',
-            help='The disk size for the extra disk of the student nodes, in Gb, default is 10')
-
-    args = parser.parse_args()
+    args = parse_command_line()
 
     users = create_users(args)
     (id,name) = find_external_network()
