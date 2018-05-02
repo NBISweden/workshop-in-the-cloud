@@ -16,8 +16,8 @@ master_disk_size = "{{ master_disk_size }}"
 
 # Node configuration
 node_count = "{{ node_count }}"
-node_flavor = "{{ node_flavor }}"
-node_disk_size = "{{ node_disk_size }}"
+node_flavor = "{{ student_flavor }}"
+node_disk_size = "{{ student_disk_size }}"
 
 provision = {
     "action" = {
