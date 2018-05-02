@@ -136,7 +136,7 @@ def parse_command_line():
             type=str,
             required=True,
             metavar='USERS',
-            help='The number of users to generate credentials for'
+            help='Either The number of users to generate credentials for or a file with usernames, one per line.'
         )
     parser.add_argument(
             '--cluster-prefix',
