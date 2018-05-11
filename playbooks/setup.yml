@@ -6,7 +6,7 @@
       raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
   roles:
     - { role: set-hosts, become: true }
-- hosts: virt-workshop-master-000
+- hosts: master
   roles:
       - { role: setup-nfs, install_role: master, become: True }
       - { role: users, install_role: master, become: True }
