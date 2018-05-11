@@ -88,12 +88,13 @@ def generate_config_file(**args):
         fh.write(render_template('config.tfvars.jj2', **args))
 
 
-def generate_vars_file(args, users):
+def generate_vars_file(args, users, shared = []):
     data = {
         "cluster_prefix": args.cluster_prefix,
         "master_host": "{}-master-000".format(args.cluster_prefix),
         "master_ip": "{{ hostvars.get(master_host)[\"ansible_host\"] }}",
         "users": users,
+        "shared": shared,
     }
 
     vars_file = 'playbooks/group_vars/all'
@@ -178,6 +179,15 @@ def parse_command_line():
             metavar='<10>',
             help='The disk size for the extra disk of the student nodes, in Gb, default is 10'
         )
+    parser.add_argument(
+            '--shared-dir',
+            dest='shared_dirs',
+            type=str,
+            default=[],
+            action='append',
+            metavar='<shared-dir>',
+            help='Directory that should be shared from the master node to the compute nodes, can be repeated',
+        )
 
     return parser.parse_args()
 
@@ -193,7 +203,7 @@ def main():
     node_count = len(users)
 
     generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
-    generate_vars_file(args, users)
+    generate_vars_file(args, users, args.shared_dirs)
     generate_users_file(users)
 
     print("""Course setup is finished

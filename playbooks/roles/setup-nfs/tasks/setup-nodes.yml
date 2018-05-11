@@ -1,18 +1,13 @@
 - name: Install NFS common
   apt:
-      name: "{{ item }}"
+      name: nfs-common
       state: present
   with_items:
       - nfs-common
-# - name: Update /etc/fstab
-#   lineinfile:
-#     path: /etc/fstab
-#     line: "{{ hostvars[item].local_host }}:/home       /home      nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0"
-#   with_items: "{{ groups['master'] }}"
 - name: Mount NFS directories
   mount:
-    path: /shared
+    path: "{{ directory }}"
     opts: auto,nofail,noatime,nolock,intr,tcp,actimeo=1800
     fstype: nfs
-    src: "{{ master_host }}:/shared"
+    src: "{{ master_host }}:/{{ directory }}"
     state: mounted

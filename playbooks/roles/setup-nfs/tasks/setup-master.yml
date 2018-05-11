@@ -1,13 +1,11 @@
 - name: Install NFS master
   apt:
-      name: "{{ item }}"
+      name: nfs-kernel-server
       state: present
-  with_items:
-      - nfs-kernel-server
 - name: Update /etc/exports
   lineinfile:
     path: /etc/exports
-    line: "/shared   {{ hostvars[item].ansible_host }}(rw,sync,no_root_squash,no_subtree_check)"
+    line: "{{directory}}   {{ hostvars[item].ansible_host }}(rw,sync,no_root_squash,no_subtree_check)"
   with_items: "{{ groups['nodes'] }}"
 - name: Restart NFS server
   service:

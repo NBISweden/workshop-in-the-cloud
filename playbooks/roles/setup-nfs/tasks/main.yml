@@ -1,14 +1,5 @@
-- name: Make sure NFS export directories exist
-  file:
-      path: "{{ item }}"
-      state: directory
-  with_items:
-      - /shared
-
-- name: Install NFS master
-  include_tasks: setup-master.yml
-  when: install_role is defined and install_role == "master"
-
-- name: Install NFS on nodes
-  include_tasks: setup-nodes.yml
-  when: install_role is defined and install_role == "node"
+- name: Setup directories
+  include_tasks: setup_directory.yml
+  with_items: "{{ shared }}"
+  loop_control:
+      loop_var: directory
