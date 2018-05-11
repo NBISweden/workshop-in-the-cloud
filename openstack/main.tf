@@ -60,6 +60,14 @@ variable master_disk_size {
   default = "0"
 }
 
+variable custom_volume_count {
+  default = 0
+}
+
+variable custom_volume_id {
+  default = ""
+}
+
 # Nodes settings
 variable node_count {
   default = 0
@@ -195,6 +203,9 @@ module "master" {
   node_labels    = "${split(",", var.master_as_edge == "true" ? "role=master,role=edge" : "role=master")}"
   node_taints    = [""]
   master_ip      = ""
+
+  custom_volume_count = "${var.custom_volume_count}"
+  custom_volume_id = "${var.custom_volume_id}"
 }
 
 module "node" {

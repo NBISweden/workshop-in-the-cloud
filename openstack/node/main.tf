@@ -44,6 +44,14 @@ variable master_ip {
   default = ""
 }
 
+variable custom_volume_count {
+  default = 0
+}
+
+variable custom_volume_id {
+  default = ""
+}
+
 # Bootstrap
 data "template_file" "instance_bootstrap" {
   template = "${file("${path.root}/../${ var.bootstrap_file }")}"
@@ -99,6 +107,13 @@ resource "openstack_compute_volume_attach_v2" "attach_extra_disk" {
   count       = "${var.extra_disk_size > 0 ? var.count : 0}"
   instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
   volume_id   = "${element(openstack_blockstorage_volume_v2.extra_disk.*.id, count.index)}"
+}
+
+# Attach optonal already existing extra volume
+resource "openstack_compute_volume_attach_v2" "custom_volume" {
+  count       = "${var.custom_volume_count}"
+  instance_id = "${element(openstack_compute_instance_v2.instance.*.id, count.index)}"
+  volume_id   = "${var.custom_volume_id}"
 }
 
 # Generates a list of ip-numbers with public ip first if available
