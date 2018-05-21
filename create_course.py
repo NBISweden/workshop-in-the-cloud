@@ -193,9 +193,9 @@ def parse_command_line():
 
 
 def main():
-    check_environment()
-
     args = parse_command_line()
+
+    check_environment()
 
     users = create_users(args)
     (id,name) = find_external_network()
