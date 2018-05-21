@@ -1,5 +1,5 @@
 - name: Setup directories
-  include_tasks: setup_directory.yml
+  include_tasks: setup-directory.yml
   with_items: "{{ shared }}"
   loop_control:
       loop_var: directory

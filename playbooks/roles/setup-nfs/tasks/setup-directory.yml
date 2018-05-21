@@ -1,0 +1,13 @@
+- name: Make sure NFS directories exist
+  file:
+      path: "{{ directory }}"
+      state: directory
+
+- name: Install NFS master
+  include_tasks: setup-master.yml
+  when: install_role is defined and install_role == "master"
+
+- name: Install NFS on nodes
+  include_tasks: setup-nodes.yml
+  when: install_role is defined and install_role == "node"
+
