@@ -186,7 +186,7 @@ def parse_command_line():
             default=[],
             action='append',
             metavar='<shared-dir>',
-            help='Directory that should be shared from the master node to the compute nodes, can be repeated',
+            help='Directory that should be shared from the master node to the compute nodes, can be repeated. For example: "--shared-dir /data --shared_dir /references"',
         )
 
     return parser.parse_args()
