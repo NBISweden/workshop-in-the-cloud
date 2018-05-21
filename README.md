@@ -66,8 +66,39 @@ For example it can be run something like this:
     ./create_course.py --users 10 --student-disk-size 30
 
 This will create a course instance with 10 users and a work area for each
-student that is 30Gb. Use the `--help` option to find out more about how to
-configure the course setup.
+student that is 30Gb.
+
+These are all the configuration settings (can also be viewed with the `--help` switch):
+
+
+	usage: create_course.py [-h] --users USERS [--cluster-prefix <virt-workshop>]
+							[--master-flavor <ssc.small>] [--master-disk-size <0>]
+							[--student-flavor <ssc.small>]
+							[--student-disk-size <10>] [--shared-dir <shared-dir>]
+
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  --users USERS         Either The number of users to generate credentials for
+							or a file with usernames, one per line.
+	  --cluster-prefix <virt-workshop>
+							Cluster prefix for hostnames in openstack, default is
+							virt-workshop
+	  --master-flavor <ssc.small>
+							The openstack flavor for the master node, default is
+							ssc.small
+	  --master-disk-size <0>
+							The disk size for the extra disk of the master node,
+							in Gb, default is 0
+	  --student-flavor <ssc.small>
+							The openstack flavor for the student nodes, default is
+							ssc.small
+	  --student-disk-size <10>
+							The disk size for the extra disk of the student nodes,
+							in Gb, default is 10
+	  --shared-dir <shared-dir>
+							Directory that should be shared from the master node
+							to the compute nodes, can be repeated. For example: "
+							--shared-dir /data --shared_dir /references"
 
 
 ## Launch the system
