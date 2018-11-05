@@ -126,7 +126,7 @@ def check_environment():
         sys.exit(1)
 
     if not os.path.isfile('ssh_key'):
-        subprocess.run("ssh-keygen -t rsa -N '' -f ssh_key")
+        subprocess.run(["ssh-keygen", "-t", "rsa", "-N", "''", "-f", "ssh_key"])
 
 
 def parse_command_line():
