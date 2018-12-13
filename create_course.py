@@ -126,8 +126,11 @@ def check_environment():
         sys.exit(1)
 
     if not os.path.isfile('ssh_key'):
-        subprocess.run(["ssh-keygen", "-t", "rsa", "-N", "''", "-f", "ssh_key"])
-
+        pu, pv = create_ssh_key()
+        with open('ssh_key.pub', 'w') as key:
+            key.write(pu)
+        with open('ssh_key', 'w') as key:
+            key.write(pv)
 
 def parse_command_line():
     parser = argparse.ArgumentParser()
