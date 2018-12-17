@@ -1,0 +1,4 @@
+- name: Upload local folder to NFS
+  synchronize:
+    src: "{{inventory_dir}}/{{directory}}"
+    dest: "{{ shared.0 | default('/data') }}"

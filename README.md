@@ -63,7 +63,7 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 10 --student-disk-size 30
+    ./create_course.py --users 1 --student-disk-size 30 --shared-dir /data --local-data data --local-data ref
 
 This will create a course instance with 10 users and a work area for each
 student that is 30Gb.
@@ -99,6 +99,9 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							Directory that should be shared from the master node
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
+	  --local-data <shared-dir>
+							Local directory to be uploaded to the master node (relative path), can be repeated. For example: "
+							--lcoal-data ref-data --local-data params"
 
 
 ## Launch the system

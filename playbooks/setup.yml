@@ -10,6 +10,7 @@
   roles:
       - { role: setup-nfs, install_role: master, become: True }
       - { role: users, install_role: master, become: True }
+      - { role: data-upload, install_role: master, become: True }
 - hosts: nodes
   roles:
       - { role: setup-nfs, install_role: node, become: True }
