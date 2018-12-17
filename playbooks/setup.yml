@@ -16,5 +16,5 @@
       - { role: setup-nfs, install_role: node, become: True }
       - { role: local-disk, become: True }
       - { role: users, install_role: node, become: True }
-      - { role: set-up-conda, become: True }
-      - { role: create-conda-env, conda_env_name: test, conda_env_environment: environment.yml, conda_env_cleanup: True, conda_env_activate_for_login_shell: True, become: True }
+      #- { role: set-up-conda, become: True }
+      #- { role: create-conda-env, conda_env_name: test, conda_env_environment: environment.yml, conda_env_cleanup: True, conda_env_activate_for_login_shell: True, become: True }
