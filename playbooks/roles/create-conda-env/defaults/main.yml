@@ -1,0 +1,8 @@
+---
+conda_env_conda_dir: /usr/local/anaconda
+conda_env_escalate: True
+conda_env_cleanup: False
+#conda_env_name: test
+# the environment.yml file is found via the template module
+#conda_env_environment: environment.yml
+conda_env_activate_for_login_shell: True
