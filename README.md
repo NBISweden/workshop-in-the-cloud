@@ -99,6 +99,9 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							Directory that should be shared from the master node
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
+	  --local-data <shared-dir>
+							Local directory to be uploaded to the master node (relative path), can be repeated. For example: "
+							--lcoal-data ref-data --local-data params"
 
 ## Launch the system
 
