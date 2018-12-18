@@ -5,6 +5,7 @@ import yaml
 import sys
 import subprocess
 import re
+import os
 import os.path
 
 import passlib.pwd
@@ -41,7 +42,6 @@ def create_ssh_key():
         crypto_serialization.PublicFormat.OpenSSH
     )
     return (public_key.decode('utf-8'), private_key.decode('utf-8'))
-
 
 def create_users(args):
     users = args.users
@@ -138,6 +138,7 @@ def check_environment():
             key.write(pu)
         with open(course_name + '/ssh_key', 'w') as key:
             key.write(pv)
+            os.chmod(course_name + '/ssh_key', 400)
 
 def parse_command_line():
     parser = argparse.ArgumentParser()
@@ -219,7 +220,7 @@ def parse_command_line():
     return parser.parse_args()
 
 def setup_course():
-    """copy relevant files to a course folder"""
+    """copy relevant files to course folder"""
     global course_name
     setup_files = ['playbooks', 'bin', 'ansible.cfg', 'common', 'openstack', 'config.tfvars.jj2', 'bootstrap','inventory-template']
     for fn in setup_files:
@@ -229,7 +230,7 @@ def setup_course():
             pass
 
 def copy_kn():
-    """copy kn binary to a course folder"""
+    """Copy kn binary to course folder"""
     global course_name
     files = '%s' % course_name + '/bin/kn'
     if os.path.exists(files):
@@ -237,6 +238,14 @@ def copy_kn():
     else:
         pass
 
+def move_upload_dir(local_data_dirs):
+    """Move data to course folder"""
+    global course_name
+    for dir in local_data_dirs:
+        src = './' + dir
+        dst = './' + course_name + '/' + dir
+        dir_util.mkpath(dst)
+        os.rename(src,dst)
 
 def main():
     args = parse_command_line()
@@ -246,10 +255,10 @@ def main():
 
     print ("""Generating course folder...""")
     dir_util.mkpath(course_name)
-
     setup_course()
     copy_kn()
     check_environment()
+    move_upload_dir(args.local_data)
 
     users = create_users(args)
     (id,name) = find_external_network()
@@ -262,8 +271,8 @@ def main():
 
 
     print("""Course setup is finished
- To spin up the cloud run: cd <course-name> && ./kn apply
- The usernames and passwords are in the file passwords.txt""")
+ To spin up the cloud run: cd {} && ./kn apply
+ The usernames and passwords are in the file passwords.txt""".format(course_name))
 
 
 if __name__ == '__main__':
