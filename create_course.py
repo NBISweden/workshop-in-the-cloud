@@ -244,25 +244,40 @@ def move_upload_dir(local_data_dirs):
     for dir in local_data_dirs:
         src = './' + dir
         dst = './' + course_name + '/' + dir
-        dir_util.mkpath(dst)
         os.rename(src,dst)
+
+def check_upload_dir(local_data_dirs):
+    """Make sure upload path is relative and exists"""
+    for dir in local_data_dirs:
+        if os.path.exists(dir) == False or os.path.isabs(dir) == True:
+            print("Aborting... {} must be a relative path and exist in your current directory".format(dir))
+            sys.exit()
+        else:
+            print("Path {} is valid".format(dir))
+    return True
 
 def main():
     args = parse_command_line()
 
     global course_name
     course_name = args.course_name
+    do_upload = False
+
+    if (args.local_data is not []):
+        do_upload = check_upload_dir(args.local_data)
 
     print ("""Generating course folder...""")
     dir_util.mkpath(course_name)
+
     setup_course()
     copy_kn()
     check_environment()
-    move_upload_dir(args.local_data)
+
+    if (do_upload == True):
+        move_upload_dir(args.local_data)
 
     users = create_users(args)
     (id,name) = find_external_network()
-
     node_count = len(users)
 
     generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
