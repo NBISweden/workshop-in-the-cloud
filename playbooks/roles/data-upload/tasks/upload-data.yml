@@ -1,2 +1,0 @@
-- name: Upload reference data to master
-  include_tasks: upload-master.yml

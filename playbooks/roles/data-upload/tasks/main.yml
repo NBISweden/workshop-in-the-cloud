@@ -1,5 +1,5 @@
 - name: Upload data
-  include_tasks: upload-data.yml
+  include_tasks: upload-master.yml
   with_items: "{{ local_data }}"
   loop_control:
       loop_var: directory
