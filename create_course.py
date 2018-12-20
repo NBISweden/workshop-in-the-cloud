@@ -88,14 +88,13 @@ def generate_config_file(**args):
         fh.write(render_template('config.tfvars.jj2', **args))
 
 
-def generate_vars_file(args, users, shared = [], local_data = []):
+def generate_vars_file(args, users, shared = []):
     data = {
         "cluster_prefix": args.cluster_prefix,
         "master_host": "{}-master-000".format(args.cluster_prefix),
         "master_ip": "{{ hostvars.get(master_host)[\"ansible_host\"] }}",
         "users": users,
         "shared": shared,
-        "local_data": local_data,
     }
 
     vars_file = 'playbooks/group_vars/all'
@@ -132,6 +131,9 @@ def check_environment():
             key.write(pu)
         with open('ssh_key', 'w') as key:
             key.write(pv)
+
+    subprocess.run(['chmod', '400', './ssh_key'])
+    subprocess.run(['ssh-add', './ssh_key'])
 
 def parse_command_line():
     parser = argparse.ArgumentParser()
@@ -192,15 +194,6 @@ def parse_command_line():
             metavar='<shared-dir>',
             help='Directory that should be shared from the master node to the compute nodes, can be repeated. For example: "--shared-dir /data --shared_dir /references"',
         )
-    parser.add_argument(
-            '--local-data',
-            dest='local_data',
-            type=str,
-            default=[],
-            action='append',
-            metavar='<local-data>',
-            help='Local directory to upload to NFS (relvative path). For example: "--local-data data --local-data references"',
-        )
 
     return parser.parse_args()
 
@@ -216,7 +209,7 @@ def main():
     node_count = len(users)
 
     generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
-    generate_vars_file(args, users, args.shared_dirs, args.local_data)
+    generate_vars_file(args, users, args.shared_dirs)
     generate_users_file(users)
 
     print("""Course setup is finished
