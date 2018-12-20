@@ -39,10 +39,6 @@ def check_upload_dir(local_dir):
     return True
 
 def check_environment():
-    if not os.environ.get('OS_AUTH_URL', False):
-        sys.stderr.write("ERROR: You need to source the openstack credentials file.\n")
-        sys.exit(1)
-
     if not os.path.isfile('ssh_key'):
         sys.stderr.write("ERROR: Private ssh not present. Are you in the correct directory?\n")
         sys.exit(1)
