@@ -114,13 +114,13 @@ For instance, you can do:
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 
-usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
+	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --local-dir <local-dir>
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  --local-dir <local-dir>
 						Local directory to upload to NFS. Can be repeated. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references
-  --remote-dir <remote-dir>
+	  --remote-dir <remote-dir>
 						Remote directory. For example: "--remote_dir /data"
 
 
