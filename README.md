@@ -110,18 +110,18 @@ To make your data available in the system run `upload_data.py`. This will upload
 
 For instance, you can do:
 
-    ./upload_data.py --local-dir $(pwd)/data --remote-dir /data
+    ./upload_data.py --local-dir $(pwd)/dir1 --local-dir $(pwd)/dir2 --remote-dir /data
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 
-    	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
+usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
 
-    	optional arguments:
-    	  -h, --help            show this help message and exit
-        --local-dir <local-dir>
-    							Local directory to upload to NFS. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references
-    	  --remote-dir <remote-dir>
-    							Remote directory. For example: "--remote_dir /data"
+optional arguments:
+  -h, --help            show this help message and exit
+  --local-dir <local-dir>
+						Local directory to upload to NFS. Can be repeated. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references
+  --remote-dir <remote-dir>
+						Remote directory. For example: "--remote_dir /data"
 
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
