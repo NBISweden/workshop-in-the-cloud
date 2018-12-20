@@ -99,14 +99,29 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							Directory that should be shared from the master node
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
-	  --local-data <shared-dir>
-							Local directory to be uploaded to the master node (relative path), can be repeated. For example: "
-							--lcoal-data ref-data --local-data params"
-
 
 ## Launch the system
 
     ./kn apply
+
+## Data upload
+
+To make your data available in the system run `upload_data.py`. This will upload your local data to a NFS server.
+
+For instance, you can do:
+
+    ./upload_data.py --local-dir $(pwd)/data --remote-dir /data
+
+These are all the configuration settings (can also be viewed with the `--help` switch):
+
+    	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
+
+    	optional arguments:
+    	  -h, --help            show this help message and exit
+        --local-dir <local-dir>
+    							Local directory to upload to NFS. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references
+    	  --remote-dir <remote-dir>
+    							Remote directory. For example: "--remote_dir /data"
 
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"

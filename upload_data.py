@@ -23,7 +23,7 @@ def parse_command_line():
             default=[],
             action='append',
             metavar='<local-data>',
-            help='Local directory to upload to NFS. For example: "--local-data data --local-data references"',
+            help='Local directory to upload to NFS. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references"',
         )
 
     return parser.parse_args()
