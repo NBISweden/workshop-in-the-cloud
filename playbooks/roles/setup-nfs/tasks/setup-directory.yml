@@ -2,6 +2,7 @@
   file:
       path: "{{ directory }}"
       state: directory
+      owner: ubuntu
 
 - name: Install NFS master
   include_tasks: setup-master.yml
@@ -10,4 +11,3 @@
 - name: Install NFS on nodes
   include_tasks: setup-nodes.yml
   when: install_role is defined and install_role == "node"
-

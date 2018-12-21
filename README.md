@@ -63,7 +63,7 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 10 --student-disk-size 30
+    ./create_course.py --users 1 --student-disk-size 30 --shared-dir /data --local-data data --local-data ref
 
 This will create a course instance with 10 users and a work area for each
 student that is 30Gb.
@@ -100,10 +100,28 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
 
-
 ## Launch the system
 
     ./kn apply
+
+## Data upload
+
+To make your data available in the system use the `upload_data.py` script. This will upload your local data to a NFS server.
+
+For instance, you can do:
+
+    ./upload_data.py --local-dir $(pwd)/dir1 --local-dir $(pwd)/dir2 --remote-dir /data
+
+These are all the configuration settings (can also be viewed with the `--help` switch):
+
+	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
+
+	mandatory arguments:
+	  -h, --help            show this help message and exit
+	  --local-dir <local-dir>
+						Local directory to upload to NFS. Can be repeated. For example: "--local-dir ./dir1 --local-dir /opt/dir2"
+	  --remote-dir <remote-dir>
+						Remote directory. For example: "--remote_dir /data"
 
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
