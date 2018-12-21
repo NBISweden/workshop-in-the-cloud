@@ -132,9 +132,6 @@ def check_environment():
         with open('ssh_key', 'w') as key:
             key.write(pv)
 
-    subprocess.run(['chmod', '400', './ssh_key'])
-    subprocess.run(['ssh-add', './ssh_key'])
-
 def parse_command_line():
     parser = argparse.ArgumentParser()
     parser.add_argument(

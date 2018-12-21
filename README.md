@@ -106,7 +106,7 @@ These are all the configuration settings (can also be viewed with the `--help` s
 
 ## Data upload
 
-To make your data available in the system run `upload_data.py`. This will upload your local data to a NFS server.
+To make your data available in the system use the `upload_data.py` script. This will upload your local data to a NFS server.
 
 For instance, you can do:
 
@@ -116,10 +116,10 @@ These are all the configuration settings (can also be viewed with the `--help` s
 
 	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
 
-	optional arguments:
+	mandatory arguments:
 	  -h, --help            show this help message and exit
 	  --local-dir <local-dir>
-						Local directory to upload to NFS. Can be repeated. For example: "--local-dir $(pwd)/dir --local-dir $(pwd)/references
+						Local directory to upload to NFS. Can be repeated. For example: "--local-dir ./dir1 --local-dir /opt/dir2"
 	  --remote-dir <remote-dir>
 						Remote directory. For example: "--remote_dir /data"
 
