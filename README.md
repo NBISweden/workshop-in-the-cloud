@@ -63,7 +63,7 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 1 --student-disk-size 30 --shared-dir /data --local-data data --local-data ref
+    ./create_course.py --users 1 --course-name biostatistics --student-disk-size 30 --shared-dir /data
 
 This will create a course instance with 10 users and a work area for each
 student that is 30Gb.
@@ -76,10 +76,13 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							[--student-flavor <ssc.small>]
 							[--student-disk-size <10>] [--shared-dir <shared-dir>]
 
+  required arguments:
+	  --users USERS         Either The number of users to generate credentials for
+            or a file with usernames, one per line.
+    --course-name NAME    Name of the course. For example: "--course-name biostatistics'        
+
 	optional arguments:
 	  -h, --help            show this help message and exit
-	  --users USERS         Either The number of users to generate credentials for
-							or a file with usernames, one per line.
 	  --cluster-prefix <virt-workshop>
 							Cluster prefix for hostnames in openstack, default is
 							virt-workshop
@@ -99,9 +102,6 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							Directory that should be shared from the master node
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
-	  --local-data <shared-dir>
-							Local directory to be uploaded to the master node (relative path), can be repeated. For example: "
-							--lcoal-data ref-data --local-data params"
 
 ## Launch the system
 
@@ -113,7 +113,7 @@ To make your data available in the system use the `upload_data.py` script. This 
 
 For instance, you can do:
 
-    ./upload_data.py --local-dir $(pwd)/dir1 --local-dir $(pwd)/dir2 --remote-dir /data
+    ./upload_data.py --local-dir ./dir1 --local-dir /opt/dir2 --remote-dir /data
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 

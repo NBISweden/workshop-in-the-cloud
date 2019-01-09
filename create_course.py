@@ -5,14 +5,12 @@ import yaml
 import sys
 import subprocess
 import re
-import os
 import os.path
 
 import passlib.pwd
 import passlib.hash
 
 import jinja2
-import distutils
 
 from distutils import dir_util
 from cryptography.hazmat.primitives import serialization as crypto_serialization
@@ -42,6 +40,7 @@ def create_ssh_key():
         crypto_serialization.PublicFormat.OpenSSH
     )
     return (public_key.decode('utf-8'), private_key.decode('utf-8'))
+
 
 def create_users(args):
     users = args.users
@@ -91,16 +90,13 @@ def generate_config_file(**args):
     with open(course_name + '/config.tfvars', 'w') as fh:
         fh.write(render_template(course_name + '/config.tfvars.jj2', **args))
 
-
-def generate_vars_file(args, users, shared = [], local_data = []):
-    global course_name
+def generate_vars_file(args, users, shared = []):
     data = {
         "cluster_prefix": args.cluster_prefix,
         "master_host": "{}-master-000".format(args.cluster_prefix),
         "master_ip": "{{ hostvars.get(master_host)[\"ansible_host\"] }}",
         "users": users,
         "shared": shared,
-        "local_data": local_data,
     }
 
     vars_file = course_name + '/playbooks/group_vars/all'
@@ -115,7 +111,6 @@ def generate_users_file(users):
         for u in [u for host in users.values() for u in host]:
             fh.write("{}\t{}\n".format(u['user'], u['password']))
 
-
 def find_external_network():
     p = subprocess.run([course_name + '/kn', 'openstack', 'network', 'list', '--external'], stdout=subprocess.PIPE)
     for line in p.stdout.decode('utf8').split("\r\n"):
@@ -125,7 +120,6 @@ def find_external_network():
             name = m.group(2)
             return (id, name)
     return
-
 
 def check_environment():
     if not os.environ.get('OS_AUTH_URL', False):
@@ -138,7 +132,6 @@ def check_environment():
             key.write(pu)
         with open(course_name + '/ssh_key', 'w') as key:
             key.write(pv)
-            os.chmod(course_name + '/ssh_key', 400)
 
 def parse_command_line():
     parser = argparse.ArgumentParser()
@@ -200,21 +193,12 @@ def parse_command_line():
             help='Directory that should be shared from the master node to the compute nodes, can be repeated. For example: "--shared-dir /data --shared_dir /references"',
         )
     parser.add_argument(
-            '--local-data',
-            dest='local_data',
-            type=str,
-            default=[],
-            action='append',
-            metavar='<local-data>',
-            help='Local directory to upload to NFS (relative path). For example: "--local-data data --local-data references"',
-        )
-    parser.add_argument(
             '--course-name',
             dest='course_name',
             type=str,
-            default='default-course',
+            required=True,
             metavar='<course-name>',
-            help='Directory where all course-related configuration will be stored (relative path). For example: "--course-name biostatistics',
+            help='Name of the course (required). For example: "--course-name biostatistics',
         )
 
     return parser.parse_args()
@@ -238,33 +222,11 @@ def copy_kn():
     else:
         pass
 
-def move_upload_dir(local_data_dirs):
-    """Move data to course folder"""
-    global course_name
-    for dir in local_data_dirs:
-        src = './' + dir
-        dst = './' + course_name + '/' + dir
-        os.rename(src,dst)
-
-def check_upload_dir(local_data_dirs):
-    """Make sure upload path is relative and exists"""
-    for dir in local_data_dirs:
-        if os.path.exists(dir) == False or os.path.isabs(dir) == True:
-            print("Aborting... {} must be a relative path and exist in your current directory".format(dir))
-            sys.exit()
-        else:
-            print("Path {} is valid".format(dir))
-    return True
-
 def main():
     args = parse_command_line()
 
     global course_name
     course_name = args.course_name
-    do_upload = False
-
-    if (args.local_data is not []):
-        do_upload = check_upload_dir(args.local_data)
 
     print ("""Generating course folder...""")
     dir_util.mkpath(course_name)
@@ -273,17 +235,14 @@ def main():
     copy_kn()
     check_environment()
 
-    if (do_upload == True):
-        move_upload_dir(args.local_data)
-
     users = create_users(args)
     (id,name) = find_external_network()
+
     node_count = len(users)
 
     generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
-    generate_vars_file(args, users, args.shared_dirs, args.local_data)
+    generate_vars_file(args, users, args.shared_dirs)
     generate_users_file(users)
-
 
     print("""Course setup is finished
  To spin up the cloud run: cd {} && ./kn apply
