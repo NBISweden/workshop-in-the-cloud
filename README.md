@@ -75,11 +75,14 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							[--master-flavor <ssc.small>] [--master-disk-size <0>]
 							[--student-flavor <ssc.small>]
 							[--student-disk-size <10>] [--shared-dir <shared-dir>]
+    required arguments:
+     --users USERS
+							Either The number of users to generate credentials for
+							or a file with usernames, one per line.
 
-  required arguments:
-	  --users USERS         Either The number of users to generate credentials for
-            or a file with usernames, one per line.
-    --course-name NAME    Name of the course. For example: "--course-name biostatistics'        
+
+     --course-name NAME
+							Name of the course. For example: "--course-name biostatistics"        
 
 	optional arguments:
 	  -h, --help            show this help message and exit
