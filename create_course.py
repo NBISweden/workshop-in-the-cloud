@@ -12,10 +12,12 @@ import passlib.hash
 
 import jinja2
 
+from distutils import dir_util
 from cryptography.hazmat.primitives import serialization as crypto_serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.backends import default_backend as crypto_default_backend
 
+course_name = None
 
 def render_template(file, **kwargs):
     env = jinja2.Environment(loader = jinja2.FileSystemLoader('.'))
@@ -84,9 +86,9 @@ def create_users(args):
 
 
 def generate_config_file(**args):
-    with open('config.tfvars', 'w') as fh:
-        fh.write(render_template('config.tfvars.jj2', **args))
-
+    global course_name
+    with open(course_name + '/config.tfvars', 'w') as fh:
+        fh.write(render_template(course_name + '/config.tfvars.jj2', **args))
 
 def generate_vars_file(args, users, shared = []):
     data = {
@@ -97,20 +99,20 @@ def generate_vars_file(args, users, shared = []):
         "shared": shared,
     }
 
-    vars_file = 'playbooks/group_vars/all'
+    vars_file = course_name + '/playbooks/group_vars/all'
 
     with open(vars_file, 'w') as fh:
         fh.write(yaml.dump(data, default_flow_style=False))
 
 
 def generate_users_file(users):
-    with open('passwords.txt', 'w') as fh:
+    global course_name
+    with open(course_name + '/passwords.txt', 'w') as fh:
         for u in [u for host in users.values() for u in host]:
             fh.write("{}\t{}\n".format(u['user'], u['password']))
 
-
 def find_external_network():
-    p = subprocess.run(['./kn', 'openstack', 'network', 'list', '--external'], stdout=subprocess.PIPE)
+    p = subprocess.run([course_name + '/kn', 'openstack', 'network', 'list', '--external'], stdout=subprocess.PIPE)
     for line in p.stdout.decode('utf8').split("\r\n"):
         m = re.search(r'([a-f0-9-]+) \| (Public External IPv4 network)', line, re.IGNORECASE)
         if m:
@@ -119,17 +121,16 @@ def find_external_network():
             return (id, name)
     return
 
-
 def check_environment():
     if not os.environ.get('OS_AUTH_URL', False):
         sys.stderr.write("ERROR: You need to source the openstack credentials file.\n")
         sys.exit(1)
 
-    if not os.path.isfile('ssh_key'):
+    if not os.path.isfile(course_name + '/ssh_key.pub'):
         pu, pv = create_ssh_key()
-        with open('ssh_key.pub', 'w') as key:
+        with open(course_name + '/ssh_key.pub', 'w') as key:
             key.write(pu)
-        with open('ssh_key', 'w') as key:
+        with open(course_name + '/ssh_key', 'w') as key:
             key.write(pv)
 
 def parse_command_line():
@@ -191,13 +192,47 @@ def parse_command_line():
             metavar='<shared-dir>',
             help='Directory that should be shared from the master node to the compute nodes, can be repeated. For example: "--shared-dir /data --shared_dir /references"',
         )
+    parser.add_argument(
+            '--course-name',
+            dest='course_name',
+            type=str,
+            required=True,
+            metavar='<course-name>',
+            help='Name of the course (required). For example: "--course-name biostatistics',
+        )
 
     return parser.parse_args()
 
+def setup_course():
+    """copy relevant files to course folder"""
+    global course_name
+    setup_files = ['playbooks', 'bin', 'ansible.cfg', 'common', 'openstack', 'config.tfvars.jj2', 'bootstrap','inventory-template']
+    for fn in setup_files:
+        if os.path.exists(fn):
+            subprocess.call(['cp', '-rf', fn, '%s/' % course_name])
+        else:
+            pass
+
+def copy_kn():
+    """Copy kn binary to course folder"""
+    global course_name
+    files = '%s' % course_name + '/bin/kn'
+    if os.path.exists(files):
+        subprocess.call(['cp', files, '%s/' %  course_name])
+    else:
+        pass
 
 def main():
     args = parse_command_line()
 
+    global course_name
+    course_name = args.course_name
+
+    print ("""Generating course folder...""")
+    dir_util.mkpath(course_name)
+
+    setup_course()
+    copy_kn()
     check_environment()
 
     users = create_users(args)
@@ -210,8 +245,8 @@ def main():
     generate_users_file(users)
 
     print("""Course setup is finished
- To spin up the cloud run: ./kn apply
- The usernames and passwords are in the file passwords.txt""")
+ To spin up the cloud run: cd {} && ./kn apply
+ The usernames and passwords are in the file passwords.txt""".format(course_name))
 
 
 if __name__ == '__main__':
