@@ -106,6 +106,22 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							to the compute nodes, can be repeated. For example: "
 							--shared-dir /data --shared_dir /references"
 
+## Installing scientific software with Conda
+
+Under `<course-name>/playbooks` there is a file called `environment.yml` where it is possible to define what Conda packages to install in the Conda environment. See an example below:
+
+```YAML
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - star=2.5.4a
+  - bwa=0.7.15
+```
+
+For more information on how to manage Conda environments consult the [documentation][conda]
+
 ## Launch the system
 
     ./kn apply
@@ -132,3 +148,4 @@ These are all the configuration settings (can also be viewed with the `--help` s
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
 [cloud-portal]: https://cloud.snic.se/ "SNIC Cloud Portal"
+[conda]: https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually "Conda environments docs"
