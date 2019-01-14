@@ -120,7 +120,7 @@ dependencies:
   - bwa=0.7.15
 ```
 
-For more information on how to manage Conda environments consult the [documentation][conda]
+You can find the available bioconda packages in the Bioconda [archive][bio]. For more information on how to manage Conda environments consult the [documentation][conda]
 
 ## Launch the system
 
@@ -149,3 +149,4 @@ These are all the configuration settings (can also be viewed with the `--help` s
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
 [cloud-portal]: https://cloud.snic.se/ "SNIC Cloud Portal"
 [conda]: https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually "Conda environments docs"
+[bio]: https://bioconda.github.io/recipes.html# "Bioconda archive"
