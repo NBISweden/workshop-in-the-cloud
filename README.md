@@ -26,7 +26,7 @@ To install the python libraries simply run
 
     pip install -r requirements.txt
 
-### Set the SNIC Science CLoud API Password
+### Set the SNIC Science Cloud API Password
 
 Go to the [cloud portal][cloud-portal] and in the left hand menu there's a
 link to `Set your API password`. Go there and do that.
