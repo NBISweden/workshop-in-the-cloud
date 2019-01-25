@@ -54,8 +54,7 @@ For example it can be run something like this:
 
     ./create_course.py --users 3 --course-name biostatistics --cluster-prefix workshop --student-flavor ssc.small --student-disk-size 30 --master-disk-size 100 --shared-dir /data
 
-This will create a course instance with three users and a work area for each
-student that is 30Gb.
+This will create a course instance and spin up three `student virtual machines` with 30Gb disks attached to them. Also, a `NFS server` with capacity of 100Gb is setup in the master node and mounted onto the student machines under `/data`. You can find information about virtual machine flavors in the [SNIC website][snic].
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 
@@ -72,7 +71,7 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							virt-workshop
 	  --master-flavor <ssc.small>
 							The openstack flavor for the master node, default is
-							ssc.small. For more info visit the [SNIC website][snic]
+							ssc.small.
 	  --master-disk-size <0>
 							The disk size for the extra disk of the master node,
 							in Gb, default is 0
@@ -143,6 +142,11 @@ These are all the configuration settings (can also be viewed with the `--help` s
 The credentials for accessing the virtual machines can be found in the `passwords.txt` file. Students should be able to access their instance via `ssh` by using their username and password. The `master node` IP address can be found in the `inventory` of the course folder.
 
     ssh <student-name>@<master-node-ip>
+    
+## Administrator login
+Teachers should be able to access the master node via `ssh` with private key authentication.
+
+    ssh ubuntu@<master-node-ip>
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
 [cloud-portal]: https://cloud.snic.se/ "SNIC Cloud Portal"
