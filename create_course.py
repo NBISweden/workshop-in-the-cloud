@@ -206,8 +206,10 @@ def parse_command_line():
 def setup_course():
     """copy relevant files to course folder"""
     global course_name
-    if os.path.exists('.setup'):
-        subprocess.call('cp -r .setup/* ./{}/'.format(course_name), shell=True)
+    if os.path.exists('workshop-template'):
+        subprocess.call('cp -r workshop-template/* ./{}/'.format(course_name), shell=True)
+    else:
+        pass
 
 def copy_kn():
     """Copy kn binary to course folder"""
