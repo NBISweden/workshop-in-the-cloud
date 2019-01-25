@@ -113,6 +113,10 @@ The course configuration will be located under a new folder with its correspondi
     chmod 400 ssh_key && ssh-add ssh_key
     ./kn apply
 
+> **TIP:** In order to wipe out the virtual infrastructure, you can use:
+
+    ./kn destroy
+
 
 ## Data upload
 
