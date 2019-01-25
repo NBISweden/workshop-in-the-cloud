@@ -52,7 +52,7 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 3 --course-name biostatistics --student-disk-size 30 --shared-dir /data
+    ./create_course.py --users 3 --course-name biostatistics --cluster-prefix workshop --student-flavor ssc.small --student-disk-size 30 --master-disk-size 100 --shared-dir /data
 
 This will create a course instance with three users and a work area for each
 student that is 30Gb.
@@ -72,7 +72,7 @@ These are all the configuration settings (can also be viewed with the `--help` s
 							virt-workshop
 	  --master-flavor <ssc.small>
 							The openstack flavor for the master node, default is
-							ssc.small
+							ssc.small. For more info visit the [SNIC website][snic]
 	  --master-disk-size <0>
 							The disk size for the extra disk of the master node,
 							in Gb, default is 0
@@ -122,8 +122,9 @@ The course configuration will be located under a new folder with its correspondi
 
 To make your data available in the system use the `upload_data.py` script. This will upload your local data to a NFS server.
 
-For instance, you can do:
+> **NOTE:** You might need to grant execution privileges to the upload script.
 
+    chmod +x upload_data.py
     ./upload_data.py --local-dir ./dir1 --local-dir /opt/dir2 --remote-dir /data
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
@@ -143,8 +144,8 @@ The credentials for accessing the virtual machines can be found in the `password
 
     ssh <student-name>@<master-node-ip>
 
-
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"
 [cloud-portal]: https://cloud.snic.se/ "SNIC Cloud Portal"
 [conda]: https://conda.io/docs/user-guide/tasks/manage-environments.html#creating-an-environment-file-manually "Conda environments docs"
 [bio]: https://bioconda.github.io/recipes.html# "Bioconda archive"
+[snic]: https://cloud.snic.se/index.php/instances/ "SNIC machine flavors"
