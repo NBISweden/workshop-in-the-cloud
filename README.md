@@ -12,7 +12,7 @@ website][dockerwebsite].
 
 ### Python prerequisites
 
-You need python3 installed.
+You need `python3` installed.
 
 I recommend that you use `virtualenv` for installation of python dependencies
 (this is optional though):
@@ -26,18 +26,7 @@ To install the python libraries simply run
 
     pip install -r requirements.txt
 
-
-### KubeNow cloud provisioner
-
-We are using the KubeNow cloud provisioning client to set up the cloud, you
-need to download this. Here is a simple commandline to do that and store it in
-the root of this project.
-
-    curl -f "https://raw.githubusercontent.com/kubenow/KubeNow/development/phenomenal-dalcotidine/bin/kn" -o "kn"
-    chmod +x ./kn
-
-
-### Set the SNIC Science CLoud API Password
+### Set the SNIC Science Cloud API Password
 
 Go to the [cloud portal][cloud-portal] and in the left hand menu there's a
 link to `Set your API password`. Go there and do that.
@@ -63,26 +52,18 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 1 --course-name biostatistics --student-disk-size 30 --shared-dir /data
+    ./create_course.py --users 3 --course-name biostatistics --student-disk-size 30 --shared-dir /data
 
-This will create a course instance with 10 users and a work area for each
+This will create a course instance with three users and a work area for each
 student that is 30Gb.
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 
 
-	usage: create_course.py [-h] --users USERS [--cluster-prefix <virt-workshop>]
+	usage: create_course.py [-h] --users USERS --course-name NAME [--cluster-prefix <virt-workshop>]
 							[--master-flavor <ssc.small>] [--master-disk-size <0>]
 							[--student-flavor <ssc.small>]
-							[--student-disk-size <10>] [--shared-dir <shared-dir>]
-    required arguments:
-     --users USERS
-							Either The number of users to generate credentials for
-							or a file with usernames, one per line.
-
-
-     --course-name NAME
-							Name of the course. For example: "--course-name biostatistics"        
+							[--student-disk-size <10>] [--shared-dir <shared-dir>]        
 
 	optional arguments:
 	  -h, --help            show this help message and exit
@@ -124,7 +105,14 @@ You can find the available bioconda packages in the Bioconda [archive][bio]. For
 
 ## Launch the system
 
+The course configuration will be located under a new folder with its corresponding name. Navigate to it and launch the virtual infrastructure.
+
+> **NOTE:** Before launching the system, you might need to add your private key to the key chain.
+
+    cd <course-name>
+    chmod 400 ssh_key && ssh-add ssh_key
     ./kn apply
+
 
 ## Data upload
 
@@ -138,12 +126,18 @@ These are all the configuration settings (can also be viewed with the `--help` s
 
 	usage: upload_data.py [-h] --local-dir DIRS --remote-dir DIR
 
-	mandatory arguments:
+	 arguments:
 	  -h, --help            show this help message and exit
 	  --local-dir <local-dir>
 						Local directory to upload to NFS. Can be repeated. For example: "--local-dir ./dir1 --local-dir /opt/dir2"
 	  --remote-dir <remote-dir>
 						Remote directory. For example: "--remote_dir /data"
+
+## Student login
+
+The credentials for accessing the virtual machines can be found in the `passwords.txt` file. Students should be able to access their instance via `ssh` by using their username and password. The `master node` IP address can be found in the `inventory` of the course folder.
+
+    ssh <student-name>@<master-node-ip>
 
 
 [dockerwebsite]: https://www.docker.com/community-edition "The docker website"

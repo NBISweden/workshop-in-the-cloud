@@ -206,12 +206,10 @@ def parse_command_line():
 def setup_course():
     """copy relevant files to course folder"""
     global course_name
-    setup_files = ['playbooks', 'bin', 'ansible.cfg', 'common', 'openstack', 'config.tfvars.jj2', 'bootstrap','inventory-template']
-    for fn in setup_files:
-        if os.path.exists(fn):
-            subprocess.call(['cp', '-rf', fn, '%s/' % course_name])
-        else:
-            pass
+    if os.path.exists('workshop-template'):
+        subprocess.call('cp -r workshop-template/* ./{}/'.format(course_name), shell=True)
+    else:
+        pass
 
 def copy_kn():
     """Copy kn binary to course folder"""
