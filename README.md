@@ -26,7 +26,7 @@ To install the python libraries simply run
 
     pip install -r requirements.txt
 
-### Set the SNIC Science CLoud API Password
+### Set the SNIC Science Cloud API Password
 
 Go to the [cloud portal][cloud-portal] and in the left hand menu there's a
 link to `Set your API password`. Go there and do that.
@@ -107,7 +107,7 @@ You can find the available bioconda packages in the Bioconda [archive][bio]. For
 
 The course configuration will be located under a new folder with its corresponding name. Navigate to it and launch the virtual infrastructure.
 
-> **NOTE:** Before launching the system, you might need to add your private key to the key chain with the following command:
+> **NOTE:** Before launching the system, you might need to add your private key to the key chain.
 
     cd <course-name>
     chmod 400 ssh_key && ssh-add ssh_key
