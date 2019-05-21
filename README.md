@@ -52,9 +52,9 @@ create the configuration files for the cloud and also generate a file,
 
 For example it can be run something like this:
 
-    ./create_course.py --users 3 --course-name biostatistics --cluster-prefix workshop --student-flavor ssc.small --student-disk-size 30 --master-disk-size 100 --shared-dir /data
+    ./create_course.py --users 3 --course-name biostatistics --cluster-prefix workshop --student-flavor ssc.small --master-disk-size 100 --shared-dir /data
 
-This will create a course instance and spin up three student virtual machines with 30Gb disks attached to them. Also, a NFS server with capacity of 100Gb is setup in the master node and mounted onto the student machines under `/data`. You can find information about virtual machine flavors in the [SNIC website][snic].
+This will create a course instance and spin up three student virtual machines. Also, a NFS server with capacity of 100Gb is setup in the master node and mounted onto the student machines under `/data`. You can find information about virtual machine flavors in the [SNIC website][snic].
 
 These are all the configuration settings (can also be viewed with the `--help` switch):
 
