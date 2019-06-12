@@ -9,6 +9,7 @@
 - hosts: master
   roles:
       - { role: setup-nfs, install_role: master, become: True }
+      - { role: local-disk, become: True }
       - { role: users, install_role: master, become: True }
 - hosts: nodes
   roles:
