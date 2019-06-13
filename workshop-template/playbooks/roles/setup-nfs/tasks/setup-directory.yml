@@ -1,6 +1,6 @@
 - name: Make sure NFS directories exist
   file:
-      path: "{{ directory }}"
+      path: "{{ shared }}"
       state: directory
       owner: ubuntu
 

@@ -1,0 +1,15 @@
+- name: Create partition on volume
+  parted:
+      device: /dev/vdb
+      number: 1
+      state: present
+- name: Create filesystem on volume
+  filesystem:
+      dev: /dev/vdb1
+      fstype: ext4
+- name: Mount volume
+  mount:
+      path: "{{ shared }}"
+      src: /dev/vdb1
+      state: mounted
+      fstype: ext4

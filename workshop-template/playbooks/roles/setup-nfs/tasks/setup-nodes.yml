@@ -6,8 +6,8 @@
       - nfs-common
 - name: Mount NFS directories
   mount:
-    path: "{{ directory }}"
+    path: "{{ shared }}"
     opts: auto,nofail,noatime,nolock,intr,tcp,actimeo=1800
     fstype: nfs
-    src: "{{ master_host }}:/{{ directory }}"
+    src: "{{ master_host }}:{{ shared }}"
     state: mounted
