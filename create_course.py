@@ -90,7 +90,7 @@ def generate_config_file(**args):
     with open(course_name + '/config.tfvars', 'w') as fh:
         fh.write(render_template(course_name + '/config.tfvars.jj2', **args))
 
-def generate_vars_file(args, users, shared = []):
+def generate_vars_file(args, users, shared = '/data'):
     data = {
         "cluster_prefix": args.cluster_prefix,
         "master_host": "{}-master-000".format(args.cluster_prefix),
@@ -185,12 +185,11 @@ def parse_command_line():
         )
     parser.add_argument(
             '--shared-dir',
-            dest='shared_dirs',
+            dest='shared_dir',
             type=str,
-            default=[],
-            action='append',
+            default='/data',
             metavar='<shared-dir>',
-            help='Directory that should be shared from the master node to the compute nodes, can be repeated. For example: "--shared-dir /data --shared_dir /references"',
+            help='Directory that should be shared from the master node to the compute nodes. For example: "--shared-dir /data"',
         )
     parser.add_argument(
             '--course-name',
@@ -239,7 +238,7 @@ def main():
     node_count = len(users)
 
     generate_config_file(**vars(args), external_network_id=id, external_network_name=name, node_count=node_count)
-    generate_vars_file(args, users, args.shared_dirs)
+    generate_vars_file(args, users, args.shared_dir)
     generate_users_file(users)
 
     print("""Course setup is finished
