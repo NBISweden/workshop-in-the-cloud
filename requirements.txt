@@ -1,10 +1,4 @@
-asn1crypto==0.24.0
-cffi==1.11.5
-cryptography==2.6.1
-idna==2.6
-Jinja2==2.10.1
-MarkupSafe==1.0
-passlib==1.7.1
-pycparser==2.18
-PyYAML==5.1
-six==1.11.0
+cryptography==2.9
+Jinja2==2.11.2
+PyYAML==5.3.1
+passlib==1.7.2
