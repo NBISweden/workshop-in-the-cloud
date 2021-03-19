@@ -1,4 +1,4 @@
 cryptography==2.9
-Jinja2==2.11.2
+Jinja2==2.11.3
 PyYAML==5.3.1
 passlib==1.7.2
